@@ -2,21 +2,19 @@
 #include <time.h>
 #include <sys/timeb.h>
 
-int main(void)
-{
+int main(void) {
     time_t now;
     struct tm tm_now, tm_next;
     
     time(&now);
     tm_now = *localtime(&now);
-    
     tm_next = tm_now;
     
-    tm_next.tm_mon  += 10;  // 10 개월
-    tm_next.tm_mday += 30;  // 30 일
-    tm_next.tm_hour +=  5;  //  5 시간
+    tm_next.tm_mon += 10;
+    tm_next.tm_mday += 30;
+    tm_next.tm_hour += 5;
     
-    mktime(&tm_next);
+    mktime(&tm_next); // 범위에 맞춰서 재설정
     
     printf("오늘은 %d년 %d월 %d일 %d시입니다.\n",
         tm_now.tm_year+1900, tm_now.tm_mon+1,
@@ -35,8 +33,7 @@ int main(void)
         tm_now.tm_year+1900, tm_now.tm_mon+1, 
         tm_now.tm_mday     , tm_now.tm_hour);
 
-
-        struct _timeb tb;
+    struct _timeb tb;
     struct tm t;
     char buff[100];
     

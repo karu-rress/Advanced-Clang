@@ -1,5 +1,3 @@
-/* 예제 99 : TCP/IP 정수값 송신 클라이언트 */
-
 #include <stdio.h>
 #include <conio.h>
 #include <winsock2.h>
@@ -16,9 +14,7 @@ int main(void)
     WSAStartup(MAKEWORD(2,2), &wsaData);
 
     s = socket(AF_INET, SOCK_STREAM, 0);
-
-    if(s == INVALID_SOCKET)
-    {
+    if (s == INVALID_SOCKET) {
         Error("socket");
     }
 
@@ -26,21 +22,20 @@ int main(void)
     client.sin_port        = htons(10000);            // 포트 번호 설정
     client.sin_addr.s_addr = inet_addr("127.0.0.1");  // 접속 주소 설정
 
-    if(connect(s, (SOCKADDR*)&client, sizeof(client)) != 0)
-    {
+    if (connect(s, (SOCKADDR*)&client, sizeof(client)) != 0) {
         Error("connect");
     }
 
-    while(1)
-    {
+    while (1) {
         printf("정수값 입력 : ");
         scanf("%d", &value);
         send(s, (char*)&value, 4, 0);
     }
 
     closesocket(s);
-
     WSACleanup();
+
+    return 0;
 }
 
 void Error(char* szMessage)

@@ -1,4 +1,4 @@
-#define EXAM92
+#define API__4
 #include "api.h"
 
 #define PX      130
@@ -12,7 +12,6 @@
 #define WHITE_COLOR     RGB(255,255,255)
 #define BACKGROUND      RGB(255,0,0)
 #define EMPTY           0
-
 
 int game_start;         // 게임이 시작되었는지를 나타내는 플레그
 
@@ -100,23 +99,17 @@ EXAM92_BEGIN(1000)
     DISPLAY(50, 237, buff, 15);
 
     // 전체 벽돌을 그립니다.
-    for(y=1; y<BH+1; y++)
-    {
-        for(x=1; x<BW+1; x++)
-        {
-            if(BOARD[x][y])
-            {
-                BRICK_DRAW(x-1, y-1, BOARD[x][y]);
-            }
+    for (y = 1; y < BH+1; y++) {
+        for (x = 1; x < BW+1; x++) {
+            if (BOARD[x][y])
+                BRICK_DRAW(x-1, y-1, BOARD[x][y]);  
         }
     }
 
     // 현재 이동 중인 벽돌을 그립니다.
-    if(game_start) 
-    {
+    if (game_start) {
         int i;
-        for(i=0; i<4; i++) 
-        {
+        for (i = 0; i < 4; i++)  {
             int x, y;
 
             x = BX + BRICK_SHAPE[Brick][Rotate][i].x;
@@ -127,16 +120,12 @@ EXAM92_BEGIN(1000)
     }
 
     // 현재 이동 중인 벽돌의 그림자를 그립니다.
-    if(game_start) 
-    {
+    if (game_start) {
         int i;
-        for(y=BY+1; y<BH+2; y++) 
-        {
-            if(IsMoveable(BX, y, Brick, Rotate) != EMPTY)
-            {
+        for (y=BY+1; y < BH+2; y++)  {
+            if (IsMoveable(BX, y, Brick, Rotate) != EMPTY) {
                 int by = y-1;
-                for(i=0; i<4; i++) 
-                {
+                for (i = 0; i < 4; i++) {
                     int x;
                     x = BX + BRICK_SHAPE[Brick][Rotate][i].x;
                     y = by + BRICK_SHAPE[Brick][Rotate][i].y;
@@ -149,11 +138,9 @@ EXAM92_BEGIN(1000)
     }
 
     // 다음에 사용할 블록을 그립니다.
-    if(game_start) 
-    {
+    if (game_start) {
         int i;
-        for(i=0; i<4; i++) 
-        {
+        for (i = 0; i < 4; i++) {
             int x, y;
 
             x = BRICK_SHAPE[Next_Brick][0][i].x;
@@ -167,15 +154,13 @@ EXAM92_END()
  
 END()
 
-void MakeBrick(void)
-{
+void MakeBrick(void) {
     int blocks = sizeof(BRICK_SHAPE)/sizeof(BRICK_SHAPE[0]);
     
     Brick = Next_Brick;
     Next_Brick = rand() % (blocks + 1);
     
-    if(Next_Brick == blocks)
-    {
+    if (Next_Brick == blocks) {
         Next_Brick = 5;     // 긴 막대
     }
 
@@ -184,15 +169,12 @@ void MakeBrick(void)
     Rotate = 0;
 }
 
-int MoveBrick(void)
-{
-    if(IsMoveable(BX, BY+1, Brick, Rotate) != EMPTY)
-    {
+int MoveBrick(void) {
+    if (IsMoveable(BX, BY+1, Brick, Rotate) != EMPTY) {
         CheckGame();
         MakeBrick();
         
-        if(IsMoveable(BX, BY+1, Brick, Rotate) != EMPTY)
-        {
+        if (IsMoveable(BX, BY+1, Brick, Rotate) != EMPTY) {
             GAME_OVER();
         }
         
@@ -200,17 +182,14 @@ int MoveBrick(void)
     }
 
     BY++;
-
     return 1;
 }
 
-int IsMoveable(int bx, int by, int brick, int rotate)
-{
+int IsMoveable(int bx, int by, int brick, int rotate) {
     int i, empty = EMPTY;
     int x, y;
 
-    for(i=0; i<4; i++) 
-    {
+    for (i = 0; i < 4; i++) {
         x = bx + BRICK_SHAPE[brick][rotate][i].x;
         y = by + BRICK_SHAPE[brick][rotate][i].y;
 
@@ -220,14 +199,12 @@ int IsMoveable(int bx, int by, int brick, int rotate)
     return empty;
 }
 
-int CheckGame(void)
-{
+int CheckGame(void) {
     int i, j;
     int bx, by;
     int count = 0;
 
-    for(i=0; i<4; i++) 
-    {
+    for (i = 0; i < 4; i++) {
         bx = BX + BRICK_SHAPE[Brick][Rotate][i].x;
         by = BY + BRICK_SHAPE[Brick][Rotate][i].y;
 
@@ -237,20 +214,17 @@ int CheckGame(void)
 
     Brick = -1;
 
-    for(by=1; by<BH+1; by++) 
-    {
-        for(bx=1; bx<BW+1; bx++)  // 한 줄이 다 찼는지 검사
-        {
-            if(BOARD[bx][by] == EMPTY) break;
+    for (by = 1; by < BH+1; by++) {
+        for (bx = 1; bx < BW+1; bx++) {  // 한 줄이 다 찼는지 검사
+            if (BOARD[bx][by] == EMPTY) break;
         }
 
-        if(bx == 11)              // 한 줄이 다 찬 경우
-        {
+        if (bx == 11) {             // 한 줄이 다 찬 경우
             count++;
 
-            for(i=by; i>2; i--) 
+            for (i=by; i>2; i--) 
             {
-                for(j=1; j<BW+1; j++)
+                for (j = 1; j< BW+1; j++)
                 {
                     // 다 찬 블록을 제거하고 한 칸씩 아래로 이동
                     BOARD[j][i] = BOARD[j][i-1];
@@ -261,8 +235,7 @@ int CheckGame(void)
 
     score += count * 1234 + (count/2) * 5678;
 
-    if(count)
-    {
+    if (count) {
         lines += count;
         CLEAN_SOUND();
     }

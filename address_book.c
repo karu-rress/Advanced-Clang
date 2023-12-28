@@ -44,14 +44,14 @@ int main(void)
         "Q. 종료\n"        
     };
 
-    while(1)
+    while (1)
     {
         int i;
         int ch;
 
         system("cls");
 
-        for(i=0; i<sizeof(pmenu)/sizeof(char*); i++)
+        for (i = 0; i<sizeof(pmenu)/sizeof(char*); i++)
         {
             puts(pmenu[i]);
         }
@@ -120,17 +120,17 @@ void Read(void)
     
     fp = fopen("c:\\phone.buk", "r");
     
-    if(fp == NULL)
+    if (fp == NULL)
     {
         Message("파일을 열 수 없습니다. \n\n");
         return;
     }
     
-    while(1)
+    while (1)
     {
         read_block = fread(&phone, sizeof(Phone), 1, fp);
 
-        if(read_block == 1)
+        if (read_block == 1)
         {
             Phone* tmp = (Phone*)malloc(sizeof(Phone));
             memset(tmp, 0, sizeof(Phone));
@@ -138,7 +138,7 @@ void Read(void)
             strcpy(tmp->name, phone.name);
             strcpy(tmp->tel , phone.tel);
 
-            if(head == NULL)
+            if (head == NULL)
             {
                 head = tail = tmp;
             }
@@ -152,7 +152,7 @@ void Read(void)
             count++;
         }
 
-        if(feof(fp)) break;
+        if (feof(fp)) break;
     }
 
     fclose(fp);
@@ -168,13 +168,13 @@ void Write(void)
     
     fp = fopen("c:\\phone.buk", "w+b");
     
-    if(fp == NULL)
+    if (fp == NULL)
     {
         Message("파일을 열 수 없습니다. \n\n");
         return;
     }
 
-    while(phone)
+    while (phone)
     {
         fwrite(phone, sizeof(Phone), 1, fp);
         phone = phone->next;
@@ -198,7 +198,7 @@ void Register(void)
     printf("전화 : ");
     gets(phone.tel);
 
-    if(head == NULL)
+    if (head == NULL)
     {
         head = tail = (Phone*)malloc(sizeof(Phone));
         memset(head, 0, sizeof(Phone));
@@ -227,9 +227,9 @@ void Find(void)
     printf("\n검색할 이름은 : ");
     gets(name);
 
-    while(phone)
+    while (phone)
     {
-        if(!strcmp(name, phone->name))
+        if (!strcmp(name, phone->name))
         {
             Message("이름 : %s \n"
                      "번호 : %s \n\n", 
@@ -249,9 +249,9 @@ void Modify(void)
     printf("수정할 이름은 : ");
     gets(name);
 
-    while(phone)
+    while (phone)
     {
-        if(!strcmp(name, phone->name))
+        if (!strcmp(name, phone->name))
         {
             char tel[20];
 
@@ -279,9 +279,9 @@ void Remove(void)
     printf("삭제할 이름은 : ");
     gets(name);
 
-    while(phone)
+    while (phone)
     {
-        if(!strcmp(name, phone->name))
+        if (!strcmp(name, phone->name))
         {
             RemoveList(phone);
             
@@ -296,11 +296,11 @@ void Remove(void)
 
 void RemoveList(Phone* phone)
 {
-    if(phone == head)
+    if (phone == head)
     {
         head = head->next;
 
-        if(head)
+        if (head)
         {
             head->prev = NULL;
         }
@@ -309,7 +309,7 @@ void RemoveList(Phone* phone)
             tail = NULL;
         }
     }
-    else if(phone == tail)
+    else if (phone == tail)
     {
         tail = tail->prev;
         tail->next = NULL;
@@ -336,12 +336,12 @@ void List(int forward)
 
     phone = forward ? head : tail;
 
-    while(phone)
+    while (phone)
     {
         printf("이름 : %s \n", phone->name);
         printf("번호 : %s \n", phone->tel);
 
-        if(++count % 10 == 0)
+        if (++count % 10 == 0)
         {
             printf("\n계속 보려면 아무키나 누르세요...\n");
             getchar();
@@ -362,7 +362,7 @@ void List(int forward)
 
 void FreeList(void)
 {
-    while(head)
+    while (head)
     {
         tail = head->next;
         free(head);

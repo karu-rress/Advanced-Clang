@@ -17,10 +17,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 int WIDTH, HEIGHT;
 int MY_COLOR = RGB(0,255,0);
 
-
-
-
-#ifdef EXAM89
+#ifdef API__1
 #define BEGIN() int WINAPI WinMain(                                    \
         HINSTANCE hInstance, HINSTANCE hPrevInstance,                   \
         LPSTR     lpCmdLine,                                            \
@@ -72,7 +69,7 @@ int MY_COLOR = RGB(0,255,0);
     ShowWindow  (hWnd, nCmdShow);                                     \
     UpdateWindow(hWnd);                                               \
                                                                         \
-    while(GetMessage(&msg, NULL, 0, 0))                               \
+    while (GetMessage(&msg, NULL, 0, 0))                               \
     {                                                                   \
         TranslateMessage(&msg);                                         \
         DispatchMessage(&msg);                                          \
@@ -86,7 +83,7 @@ LRESULT CALLBACK WndProc(                                              \
 
 
 #define END()                                               \
-    if(message == WM_DESTROY)                             \
+    if (message == WM_DESTROY)                             \
     {                                                       \
         KillTimer(hWnd, 1000);                            \
         PostQuitMessage(0);                                 \
@@ -95,7 +92,7 @@ LRESULT CALLBACK WndProc(                                              \
                                                             \
     return DefWindowProc(hWnd, message, wParam, lParam);    \
 }
-#elif defined EXAM90
+#elif defined API__2
 #define BEGIN() int WINAPI WinMain(                                    \
         HINSTANCE hInstance, HINSTANCE hPrevInstance,                   \
         LPSTR     lpCmdLine,                                            \
@@ -143,7 +140,7 @@ LRESULT CALLBACK WndProc(                                              \
     ShowWindow  (hWnd, nCmdShow);                                     \
     UpdateWindow(hWnd);                                               \
                                                                         \
-    while(GetMessage(&msg, NULL, 0, 0))                               \
+    while (GetMessage(&msg, NULL, 0, 0))                               \
     {                                                                   \
         TranslateMessage(&msg);                                         \
         DispatchMessage(&msg);                                          \
@@ -157,7 +154,7 @@ LRESULT CALLBACK WndProc(                                              \
 
 
 #define END()                                               \
-    if(message == WM_DESTROY)                             \
+    if (message == WM_DESTROY)                             \
     {                                                       \
         PostQuitMessage(0);                                 \
         return 0;                                           \
@@ -165,7 +162,7 @@ LRESULT CALLBACK WndProc(                                              \
                                                             \
     return DefWindowProc(hWnd, message, wParam, lParam);    \
 }
-#elif defined EXAM91
+#elif defined API__3
 int CheckGame(int x, int y, int stone);
 
 #define BEGIN() int WINAPI WinMain(                                    \
@@ -218,7 +215,7 @@ int CheckGame(int x, int y, int stone);
     ShowWindow  (hWnd, nCmdShow);                                     \
     UpdateWindow(hWnd);                                               \
                                                                         \
-    while(GetMessage(&msg, NULL, 0, 0))                               \
+    while (GetMessage(&msg, NULL, 0, 0))                               \
     {                                                                   \
         TranslateMessage(&msg);                                         \
         DispatchMessage(&msg);                                          \
@@ -232,7 +229,7 @@ LRESULT CALLBACK WndProc(                                              \
 
 
 #define END()                                               \
-    if(message == WM_DESTROY)                             \
+    if (message == WM_DESTROY)                             \
     {                                                       \
         KillTimer(hWnd, 1000);                            \
         PostQuitMessage(0);                                 \
@@ -242,7 +239,7 @@ LRESULT CALLBACK WndProc(                                              \
     return DefWindowProc(hWnd, message, wParam, lParam);    \
 }
 
-#elif defined EXAM92
+#elif defined API__4
 HWND hMainWnd;
 HWND hBtnWnd;
 int  MY_TIMER;
@@ -300,7 +297,7 @@ int  CheckGame(void);
                          hInstance,                                     \
                          NULL);                                        \
                                                                         \
-    if(!hWnd)                                                         \
+    if (!hWnd)                                                         \
     {                                                                   \
         return FALSE;                                                   \
     }                                                                   \
@@ -310,7 +307,7 @@ int  CheckGame(void);
     ShowWindow  (hWnd, nCmdShow);                                     \
     UpdateWindow(hWnd);                                               \
                                                                         \
-    while(GetMessage(&msg, NULL, 0, 0))                               \
+    while (GetMessage(&msg, NULL, 0, 0))                               \
     {                                                                   \
         TranslateMessage(&msg);                                         \
         DispatchMessage(&msg);                                          \
@@ -325,7 +322,7 @@ LRESULT CALLBACK WndProc(                                              \
 
 
 #define END()                                               \
-    if(message == WM_DESTROY)                             \
+    if (message == WM_DESTROY)                             \
     {                                                       \
         KillTimer(hWnd, 1000);                            \
         PostQuitMessage(0);                                 \
@@ -335,7 +332,7 @@ LRESULT CALLBACK WndProc(                                              \
     return DefWindowProc(hWnd, message, wParam, lParam);    \
 }
 
-#elif defined EXAM100
+#elif defined API__5
 
 
 HWND hMainWnd;
@@ -397,7 +394,7 @@ int  CheckGame(void);
         hInstance,                                                      \
         NULL);                                                         \
                                                                         \
-    if(!hWnd)                                                         \
+    if (!hWnd)                                                         \
     {                                                                   \
         return FALSE;                                                   \
     }                                                                   \
@@ -407,7 +404,7 @@ int  CheckGame(void);
     ShowWindow  (hWnd, nCmdShow);                                     \
     UpdateWindow(hWnd);                                               \
                                                                         \
-    while(GetMessage(&msg, NULL, 0, 0))                               \
+    while (GetMessage(&msg, NULL, 0, 0))                               \
     {                                                                   \
         TranslateMessage(&msg);                                         \
         DispatchMessage(&msg);                                          \
@@ -422,7 +419,7 @@ HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)                 \
     
 
 #define END()                                               \
-    if(message == WM_DESTROY)                             \
+    if (message == WM_DESTROY)                             \
     {                                                       \
         SocketClose();                                      \
         KillTimer(hWnd, 1000);                            \

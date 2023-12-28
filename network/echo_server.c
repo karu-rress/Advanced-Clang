@@ -22,9 +22,7 @@ int main(void)
     WSAStartup(MAKEWORD(2,2), &wsaData);
 
     s = socket(AF_INET, SOCK_STREAM, 0);
-
-    if(s == INVALID_SOCKET)
-    {
+    if (s == INVALID_SOCKET) {
         Error("socket");
     }
 
@@ -32,13 +30,11 @@ int main(void)
     server.sin_port        = htons(10000);      // 10000 번 포트를 사용
     server.sin_addr.s_addr = htonl(ADDR_ANY);   // 자동 네트워크 카드 설정
     
-    if(bind(s, (SOCKADDR*)&server, sizeof(server)) == SOCKET_ERROR)
-    {
+    if (bind(s, (SOCKADDR*)&server, sizeof(server)) == SOCKET_ERROR) {
         Error("bind");
     }
 
-    if(listen(s, SOMAXCONN) != 0)
-    {
+    if (listen(s, SOMAXCONN) != 0) {
         Error("listen");
     }
 
@@ -47,29 +43,24 @@ int main(void)
     size = sizeof(client);
     cs = accept(s, (SOCKADDR*)&client, &size);
 
-    if(cs == INVALID_SOCKET)
-    {
+    if (cs == INVALID_SOCKET) {
         Error("accept");
     }
 
-    while(1)
-    {
+    while (1) {
         memset(buff, 0, sizeof(buff));
 
         num = recv(cs, buff, sizeof(buff), 0);
-
-        if(num == 0 || num == SOCKET_ERROR) break;
+        if (num == 0 || num == SOCKET_ERROR) break;
 
         puts(buff);
-
         send(cs, buff, num, 0);
     }
 
     closesocket(s);
-
     WSACleanup();
 
-
+    return 0;
 }
 
 void Error(char* szMessage)

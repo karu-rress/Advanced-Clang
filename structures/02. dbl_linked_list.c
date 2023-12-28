@@ -82,4 +82,6 @@ int main(void) {
         free(node);
         node = next;
     }
+
+    return 0;
 }

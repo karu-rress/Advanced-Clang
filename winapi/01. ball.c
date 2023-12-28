@@ -1,4 +1,4 @@
-#define EXAM89
+#define API__1
 #include "api.h"
 
 BEGIN()
@@ -16,13 +16,11 @@ EXAM89_BEGIN(delay)
     x += (dx * 10);
     y += (dy * 10);
 
-    if(x <= 0 || x+30 >= WIDTH)
-    {
+    if (x <= 0 || x+30 >= WIDTH) {
         dx *= -1;
     }
 
-    if(y <= 0 || y+30 >= HEIGHT)
-    {
+    if (y <= 0 || y+30 >= HEIGHT) {
         dy *= -1;
     }
 

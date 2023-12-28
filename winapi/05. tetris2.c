@@ -1,4 +1,4 @@
-#define EXAM100
+#define API__5
 #include "api.h"
 
 #define SPEED   1000
@@ -116,23 +116,18 @@ EXAM92_BEGIN(SPEED)
     DISPLAY(50, 237, buff, 15);
 
     // 전체 벽돌을 그립니다.
-    for(y=1; y<BH+1; y++)
-    {
-        for(x=1; x<BW+1; x++)
-        {
-            if(BOARD[x][y])
-            {
+    for (y = 1; y < BH+1; y++) {
+        for (x = 1; x < BW+1; x++) {
+            if (BOARD[x][y]) {
                 BRICK_DRAW(x-1, y-1, BOARD[x][y]);
             }
         }
     }
 
     // 현재 이동 중인 벽돌을 그립니다.
-    if(game_start) 
-    {
+    if (game_start) {
         int i;
-        for(i=0; i<4; i++) 
-        {
+        for (i = 0; i < 4; i++) {
             int x, y;
             
             x = BX + BRICK_SHAPE[Brick][Rotate][i].x;
@@ -143,33 +138,26 @@ EXAM92_BEGIN(SPEED)
     }
 
     // 현재 이동 중인 벽돌의 그림자를 그립니다.
-    if(game_start) 
-    {
+    if (game_start)  {
         int i;
-        for(y=BY+1; y<BH+2; y++) 
-        {
-            if(IsMoveable(BX, y, Brick, Rotate) != EMPTY)
-            {
+        for (y =BY+1; y < BH+2; y++) {
+            if (IsMoveable(BX, y, Brick, Rotate) != EMPTY) {
                 int by = y-1;
-                for(i=0; i<4; i++) 
-                {
+                for (i = 0; i < 4; i++) {
                     int x;
                     x = BX + BRICK_SHAPE[Brick][Rotate][i].x;
                     y = by + BRICK_SHAPE[Brick][Rotate][i].y;
                     BRICK_SHADOW(x-1, y-1, Brick+1);
                 }
-                
                 break;
             }
         }
     }
     
     // 다음에 사용할 블록을 그립니다.
-    if(game_start) 
-    {
+    if (game_start) {
         int i;
-        for(i=0; i<4; i++) 
-        {
+        for (i = 0; i < 4; i++) {
             int x, y;
             
             x = BRICK_SHAPE[Next_Brick][0][i].x;
@@ -183,16 +171,14 @@ EXAM92_END()
 
 END()
 
-void MakeBrick(void)
-{
+void MakeBrick(void) {
     int blocks = sizeof(BRICK_SHAPE)/sizeof(BRICK_SHAPE[0]);
     
     
     Brick = Next_Brick;
     Next_Brick = rand() % (blocks + 1);
     
-    if(Next_Brick == blocks)
-    {
+    if (Next_Brick == blocks) {
         Next_Brick = 5;     // 긴 막대
     }
 
@@ -201,15 +187,12 @@ void MakeBrick(void)
     Rotate = 0;
 }
 
-int MoveBrick(void)
-{
-    if(IsMoveable(BX, BY+1, Brick, Rotate) != EMPTY)
-    {
+int MoveBrick(void) {
+    if (IsMoveable(BX, BY+1, Brick, Rotate) != EMPTY) {
         CheckGame();
         MakeBrick();
         
-        if(IsMoveable(BX, BY+1, Brick, Rotate) != EMPTY)
-        {
+        if (IsMoveable(BX, BY+1, Brick, Rotate) != EMPTY) {
             GAME_OVER();
         }
         
@@ -217,33 +200,26 @@ int MoveBrick(void)
     }
 
     BY++;
-    
     return 1;
 }
 
-int IsMoveable(int bx, int by, int brick, int rotate)
-{
+int IsMoveable(int bx, int by, int brick, int rotate) {
     int i, empty = EMPTY;
     int x, y;
     int line = 0;
     
-    if(m_nMode == SERVERON)
-    {
-        if(recv(g_cs, (char*)&line, 4, 0) == 4)
-        {
+    if (m_nMode == SERVERON) {
+        if (recv(g_cs, (char*)&line, 4, 0) == 4) {
             InsertBlock(line);
         }
     }
-    else if(m_nMode == CLIENTON)
-    {
-        if(recv(g_s,  (char*)&line, 4, 0) == 4)
-        {
+    else if (m_nMode == CLIENTON) {
+        if (recv(g_s,  (char*)&line, 4, 0) == 4) {
             InsertBlock(line);
         }
     }
     
-    for(i=0; i<4; i++) 
-    {
+    for (i = 0; i < 4; i++) {
         x = bx + BRICK_SHAPE[brick][rotate][i].x;
         y = by + BRICK_SHAPE[brick][rotate][i].y;
         
@@ -253,14 +229,12 @@ int IsMoveable(int bx, int by, int brick, int rotate)
     return empty;
 }
 
-int CheckGame(void)
-{
+int CheckGame(void) {
     int i, j;
     int bx, by;
     int count = 0;
     
-    for(i=0; i<4; i++) 
-    {
+    for (i = 0; i < 4; i++) {
         bx = BX + BRICK_SHAPE[Brick][Rotate][i].x;
         by = BY + BRICK_SHAPE[Brick][Rotate][i].y;
         
@@ -270,20 +244,19 @@ int CheckGame(void)
     
     Brick = -1;
     
-    for(by=1; by<BH+1; by++) 
-    {
-        for(bx=1; bx<BW+1; bx++)  // 한 줄이 다 찼는지 검사
+    for (by = 1; by < BH+1; by++) {
+        for (bx = 1; bx < BW+1; bx++)  // 한 줄이 다 찼는지 검사
         {
-            if(BOARD[bx][by] == EMPTY) break;
+            if (BOARD[bx][by] == EMPTY) break;
         }
         
-        if(bx == 11)              // 한 줄이 다 찬 경우
+        if (bx == 11)              // 한 줄이 다 찬 경우
         {
             count++;
             
-            for(i=by; i>=2; i--) 
+            for (i=by; i>=2; i--) 
             {
-                for(j=1; j<BW+1; j++)
+                for (j = 1; j< BW+1; j++)
                 {
                     // 다 찬 블록을 제거하고 한 칸씩 아래로 이동
                     BOARD[j][i] = BOARD[j][i-1];
@@ -294,15 +267,15 @@ int CheckGame(void)
 
     score += count * 1234 + (count/2) * 5678;
     
-    if(count)
+    if (count)
     {
         CLEAN_SOUND();
         
-        if(m_nMode == SERVERON)
+        if (m_nMode == SERVERON)
         {
             send(g_cs, (char*)&count, 4, 0);
         }
-        else if(m_nMode == CLIENTON)
+        else if (m_nMode == CLIENTON)
         {
             send(g_s, (char*)&count, 4, 0);
         }
@@ -313,22 +286,19 @@ int CheckGame(void)
     return 0;
 }
 
-void SocketInit()
-{
+void SocketInit() {
     WSADATA wsaData;    // 스타트업 구조체
     
     WSAStartup(MAKEWORD(2,2), &wsaData);
     
     g_s = socket(AF_INET, SOCK_STREAM, 0);
-    
-    if(g_s == INVALID_SOCKET)
+    if (g_s == INVALID_SOCKET)
     {
         ERROR_SOCKET("socket");
     }
 }
 
-void SocketServer()
-{
+void SocketServer() {
     SOCKADDR_IN server; // 소켓 구조체
     unsigned long on;   // 비동기 모드로 전환
     
@@ -340,12 +310,12 @@ void SocketServer()
     server.sin_port        = htons(10000);      // 10000 번 포트를 사용
     server.sin_addr.s_addr = htonl(ADDR_ANY);   // 임의의 네트워크 카드 설정
     
-    if(bind(g_s, (SOCKADDR*)&server, sizeof(server)) == SOCKET_ERROR)
+    if (bind(g_s, (SOCKADDR*)&server, sizeof(server)) == SOCKET_ERROR)
     {
         ERROR_SOCKET("bind");
     }
     
-    if(listen(g_s, 5) != 0)
+    if (listen(g_s, 5) != 0)
     {
         ERROR_SOCKET("listen");
     }
@@ -354,23 +324,19 @@ void SocketServer()
     MSG("서버가 시작되었습니다.");
 }
 
-void SocketAccept()
-{
+void SocketAccept() {
     int size;
     SOCKADDR_IN client; // 소켓 구조체
     
-    if(m_nMode != SERVER)
-    {
+    if (m_nMode != SERVER) {
         return;
     }
     
     size = sizeof(client);
     g_cs = accept(g_s, (SOCKADDR*)&client, &size);
     
-    if(g_cs == INVALID_SOCKET)
-    {
-        if(WSAGetLastError() != WSAEWOULDBLOCK)
-        {
+    if (g_cs == INVALID_SOCKET) {
+        if (WSAGetLastError() != WSAEWOULDBLOCK) {
             ERROR_SOCKET("accept");
         }
         return;
@@ -389,7 +355,7 @@ void SocketConnect()
     client.sin_port        = htons(10000);            // 포트 번호 설정
     client.sin_addr.s_addr = inet_addr(szServerIP);   // 접속 주소 설정
     
-    if(connect(g_s, (SOCKADDR*)&client, sizeof(client)) != 0)
+    if (connect(g_s, (SOCKADDR*)&client, sizeof(client)) != 0)
     {
         ERROR_SOCKET("connect");
     }
@@ -415,22 +381,22 @@ void InsertBlock(int line)
 {
     int x, y;
     
-    for(y=line+1; y<BH+1; y++) 
+    for (y =line+1; y < BH+1; y++) 
     {
-        for(x=1; x<BW+1; x++)
+        for (x = 1; x < BW+1; x++)
         {
             // 상대편으로부터 날아온 블록을 채우기 위해 위로 이동
             BOARD[x][y-line] = BOARD[x][y];
         }
     }
     
-    for(y=BH; y>BH-line; y--)
+    for (y = BH; y>BH-line; y--)
     {
         int space = rand()%BW + 1;
         
-        for(x=1; x<BW+1; x++)
+        for (x = 1; x < BW+1; x++)
         {
-            if(x == space)
+            if (x == space)
             {
                 BOARD[x][y] = 0;
             }
