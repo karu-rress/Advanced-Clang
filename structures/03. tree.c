@@ -32,14 +32,14 @@ Tree *insert(Tree *node, int data) {
     Tree **fNode = NULL;
 
     if (data < node->data) {
-        if (*(fNode = &node->left)) {
+        fNode = &node->left;
+        if (*fNode)
             insert(node->left, data);
-        }
     }
     else if (data > node->data) {
-        if (*(fNode = &node->right)) {
+        fNode = &node->right;
+        if (*fNode) 
             insert(node->right, data);
-        }
     }
 
     if (fNode && *fNode == NULL) {

@@ -13,6 +13,8 @@ int main(void) {
 
     n = strcalc(string);
     printf("%s = %d\n", string, n);
+
+    return 0;
 }
 
 int strcalc(const char *str) {

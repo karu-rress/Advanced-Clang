@@ -16,17 +16,14 @@ Queue queue = { {0,}, 0, 0 };
 int enqueue(int value);
 int dequeue(void);
 
-int main(void)
-{
+int main(void) {
     int i;
     
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 10; i++) 
         enqueue(i);
-    }
     
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < 10; i++) 
         printf("%d ", dequeue());
-    }
 
     return 0;
 }

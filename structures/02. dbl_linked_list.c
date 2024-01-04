@@ -75,7 +75,6 @@ int main(void) {
     node->prev = pn->prev;
     free(pn);
 
-
     node = head;
     while (node) {
         Node *next = node->next;

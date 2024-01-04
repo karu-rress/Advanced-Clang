@@ -1,6 +1,6 @@
 #define API__2
-#include "api.h"
 #include <math.h>
+#include "api.h"
 
 BEGIN()
 
@@ -12,7 +12,7 @@ double radian;
 EXAM90_BEGIN()
 
     LINE(50,  50,  50, HEIGHT - 50);
-    LINE(50, (HEIGHT-100)/2 + 50, WIDTH - 50, (HEIGHT - 100)/2 + 50);
+    LINE(50, (HEIGHT - 100)/2 + 50, WIDTH - 50, (HEIGHT - 100)/2 + 50);
     
     px = 50;
     py = (HEIGHT - 100) / 2 + 50;

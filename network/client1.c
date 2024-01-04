@@ -1,10 +1,8 @@
 #include <stdio.h>
 #include <winsock2.h>
+#include "network.h"
 
-void Error(char* szMessage);
-
-int main(void)
-{
+int main(void) {
     SOCKET s;
     WSADATA wsaData;
     struct sockaddr_in sin;
@@ -18,8 +16,8 @@ int main(void)
     }
     
     sin.sin_family = AF_INET;
-    sin.sin_addr.s_addr = inet_addr("127.0.0.1");
-    sin.sin_port = htons(10000);
+    sin.sin_addr.s_addr = inet_addr(ADDRESS);
+    sin.sin_port = htons(PORT);
     
     if (connect(s, (struct sockaddr*)&sin, sizeof(sin)) != 0) {
         closesocket(s);
@@ -27,16 +25,15 @@ int main(void)
         return 1; 
     }
     
-    printf("127.0.0.1의 10000번 포트에 접속을 성공. \n");
+    printf("%s의 %d번 포트에 접속을 성공.\n", ADDRESS, PORT);
     closesocket(s);
     WSACleanup();
 
     return 0;
 }
 
-void Error(char* szMessage)
-{
+void Error(const char* szMessage) {
     printf("Error: [%d] %s\n", WSAGetLastError(), szMessage);
     WSACleanup();
-    exit(0);
+    exit(EXIT_FAILURE);
 }

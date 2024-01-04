@@ -21,18 +21,15 @@ EXAM91_BEGIN()
 
     RECTANGLE(PX - 20, PY - 20, PX + PW*18 + 20, PY + PW*18 + 20, BACKGROUND);
 
-    for (x = 0; x < PW * 19; x += PW) {
+    for (x = 0; x < PW * 19; x += PW)
         LINE(PX + x, PY, PX + x, PY + PW*18);
-    }    
 
-    for (y = 0; y < PW*19; y += PW) {
+    for (y = 0; y < PW*19; y += PW) 
         LINE(PX, PY+y, PX+(PW*18), PY+y);
-    }
 
     for (x = PX + PW*4; x < PW*19; x += PW*6) {
-        for (y=PX + PW*4; y < PW*19; y += PW*6) {
+        for (y=PX + PW*4; y < PW*19; y += PW*6) 
             PUTXY(x, y);
-        }
     }
 
     for (x = 1; x <= 19; x++) {
@@ -50,8 +47,7 @@ EXAM91_END()
  
 END()
 
-int CheckGame(int x, int y, int stone)
-{
+int CheckGame(int x, int y, int stone) {
     int px;
     int py;
     int count;
@@ -59,8 +55,10 @@ int CheckGame(int x, int y, int stone)
     // 가로 방향 검사
     px = x, py = y, count = 0;
     
-    while (px > 1 && BOARD[px-1][y] == stone) px--;
-    while (px <= 19 && BOARD[px++][y] == stone) count++;
+    while (px > 1 && BOARD[px-1][y] == stone)
+        px--;
+    while (px <= 19 && BOARD[px++][y] == stone)
+        count++;
     
     if (count == 5)
         return 1;       // 승리
@@ -68,8 +66,10 @@ int CheckGame(int x, int y, int stone)
     // 세로 방향 검사
     px = x, py = y, count = 0;
     
-    while (py > 1 && BOARD[x][py-1] == stone) py--;
-    while (py <= 19 && BOARD[x][py++] == stone) count++;
+    while (py > 1 && BOARD[x][py-1] == stone) 
+        py--;
+    while (py <= 19 && BOARD[x][py++] == stone) 
+        count++;
     
     if (count == 5)
         return 1;
@@ -82,7 +82,7 @@ int CheckGame(int x, int y, int stone)
     
 
     while (px <= 19 && py <= 19 && BOARD[px++][py++] == stone)
-    count++;
+        count++;
       
     if (count == 5)
         return 1;
@@ -100,6 +100,5 @@ int CheckGame(int x, int y, int stone)
     if (count == 5)
         return 1;
     
-
     return 0;       // 아직 끝나지 않음
 }

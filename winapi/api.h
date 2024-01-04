@@ -1,6 +1,7 @@
 #ifndef __API_H__
 #define __API_H__
 
+// Common part
 #include <windows.h>
 #include <winsock2.h>
 
@@ -62,15 +63,12 @@ int MY_COLOR = RGB(0,255,0);
                          NULL);                                        \
                                                                         \
     if (!hWnd)                                                          \
-    {                                                                   \
         return FALSE;                                                   \
-    }                                                                   \
                                                                         \
     ShowWindow  (hWnd, nCmdShow);                                     \
     UpdateWindow(hWnd);                                               \
                                                                         \
-    while (GetMessage(&msg, NULL, 0, 0))                               \
-    {                                                                   \
+    while (GetMessage(&msg, NULL, 0, 0)) {                               \
         TranslateMessage(&msg);                                         \
         DispatchMessage(&msg);                                          \
     }                                                                   \

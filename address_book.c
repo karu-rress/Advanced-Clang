@@ -1,10 +1,11 @@
-/* 예제 88 : 전화번호부 관리 프로그램 */
-
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
 #include <process.h>
 #include <stdarg.h>
+#include <conio.h>
+
+#define FILE_NAME "phone.buk"
 
 typedef struct tagPhone
 {
@@ -50,17 +51,15 @@ int main(void)
         int ch;
 
         system("cls");
-
         for (i = 0; i<sizeof(pmenu)/sizeof(char*); i++)
         {
             puts(pmenu[i]);
         }
 
-        printf(message);
+        printf("%s", message);
 
         ch = getchar();
-
-        fflush(stdin);
+        getchar();
         
         switch(ch)
         {
@@ -118,20 +117,15 @@ void Read(void)
     FILE *fp;
     Phone phone;
     
-    fp = fopen("c:\\phone.buk", "r");
-    
-    if (fp == NULL)
-    {
-        Message("파일을 열 수 없습니다. \n\n");
+    fp = fopen(FILE_NAME, "r");
+    if (fp == NULL) {
+        Message("파일을 열 수 없습니다.\n\n");
         return;
     }
     
-    while (1)
-    {
+    while (1) {
         read_block = fread(&phone, sizeof(Phone), 1, fp);
-
-        if (read_block == 1)
-        {
+        if (read_block == 1) {
             Phone* tmp = (Phone*)malloc(sizeof(Phone));
             memset(tmp, 0, sizeof(Phone));
             
@@ -139,55 +133,44 @@ void Read(void)
             strcpy(tmp->tel , phone.tel);
 
             if (head == NULL)
-            {
-                head = tail = tmp;
-            }
-            else
-            {
+                head = tail = tmp;    
+            else {
                 tail->next = tmp;
                 tmp->prev = tail;
                 tail = tmp;
             }
-
             count++;
         }
-
-        if (feof(fp)) break;
+        if (feof(fp))
+            break;
     }
 
     fclose(fp);
-
-    Message("%d의 항목을 읽어 왔습니다. \n\n", count);
+    Message("%d의 항목을 읽어 왔습니다.\n\n", count);
 }
 
-void Write(void)
-{
+void Write(void) {
     int count = 0;
     FILE *fp;
     Phone* phone = head;
     
-    fp = fopen("c:\\phone.buk", "w+b");
-    
-    if (fp == NULL)
-    {
+    fp = fopen(FILE_NAME, "w+b");
+    if (fp == NULL) {
         Message("파일을 열 수 없습니다. \n\n");
         return;
     }
 
-    while (phone)
-    {
+    while (phone) {
         fwrite(phone, sizeof(Phone), 1, fp);
         phone = phone->next;
         count++;
     }
     
     fclose(fp);
-    
     Message("%d개의 항목을 저장하였습니다. \n\n", count);
 }
 
-void Register(void)
-{
+void Register(void) {
     Phone phone;
     
     memset(&phone, 0, sizeof(Phone));
@@ -198,13 +181,11 @@ void Register(void)
     printf("전화 : ");
     gets(phone.tel);
 
-    if (head == NULL)
-    {
+    if (head == NULL) {
         head = tail = (Phone*)malloc(sizeof(Phone));
         memset(head, 0, sizeof(Phone));
     }
-    else
-    {
+    else {
         Phone *phone = malloc(sizeof(Phone));
         memset(phone, 0, sizeof(Phone));
     
@@ -219,18 +200,15 @@ void Register(void)
     Message("%s이(가) 추가되었습니다.\n\n", phone.name);
 }
 
-void Find(void)
-{
+void Find(void) {
     Phone* phone = head;
     char name[30];
 
     printf("\n검색할 이름은 : ");
     gets(name);
 
-    while (phone)
-    {
-        if (!strcmp(name, phone->name))
-        {
+    while (phone) {
+        if (!strcmp(name, phone->name)) {
             Message("이름 : %s \n"
                      "번호 : %s \n\n", 
                      phone->name, phone->tel);
@@ -241,18 +219,15 @@ void Find(void)
     }
 }
 
-void Modify(void)
-{
+void Modify(void) {
     char name[30];
     Phone *phone = head;
 
     printf("수정할 이름은 : ");
     gets(name);
 
-    while (phone)
-    {
-        if (!strcmp(name, phone->name))
-        {
+    while (phone) {
+        if (!strcmp(name, phone->name)) {
             char tel[20];
 
             printf("수정할 핸드폰 번호는 : ");
@@ -266,56 +241,44 @@ void Modify(void)
 
             return;
         }
-     
         phone = phone->next;
     }
 }
 
-void Remove(void)
-{
+void Remove(void) {
     char name[30];
     Phone *phone = head;
 
     printf("삭제할 이름은 : ");
     gets(name);
 
-    while (phone)
-    {
-        if (!strcmp(name, phone->name))
-        {
+    while (phone) {
+        if (!strcmp(name, phone->name)) {
             RemoveList(phone);
             
             Message("%s가 삭제되었습니다. \n\n", name);
 
             return;
         }
-     
         phone = phone->next;
     }
 }
 
-void RemoveList(Phone* phone)
-{
-    if (phone == head)
-    {
+void RemoveList(Phone* phone) {
+    if (phone == head)     {
         head = head->next;
 
-        if (head)
-        {
-            head->prev = NULL;
-        }
+        if (head)      
+            head->prev = NULL;    
         else
-        {
             tail = NULL;
-        }
+        
     }
-    else if (phone == tail)
-    {
+    else if (phone == tail) {
         tail = tail->prev;
         tail->next = NULL;
     }
-    else
-    {
+    else {
         Phone* prev;
         Phone* next;
 
@@ -325,68 +288,38 @@ void RemoveList(Phone* phone)
         prev->next = next;
         next->prev = prev;
     }
-
     free(phone);
 }
 
-void List(int forward)
-{
+void List(int forward) {
     Phone* phone;
     int count = 0;
 
     phone = forward ? head : tail;
 
-    while (phone)
-    {
+    while (phone) {
         printf("이름 : %s \n", phone->name);
         printf("번호 : %s \n", phone->tel);
 
-        if (++count % 10 == 0)
-        {
+        if (++count % 10 == 0) {
             printf("\n계속 보려면 아무키나 누르세요...\n");
-            getchar();
-            fflush(stdin);
+            getch();
         }
-
         phone = forward ? phone->next : phone->prev;
     }
 
     printf("\n모든 항목이 출력되었습니다. \n");
     printf("\n아무키나 누르세요... \n");
 
-    getchar();
-    fflush(stdin);
-
+    getch();
     Message("");
 }
 
-void FreeList(void)
-{
-    while (head)
-    {
+void FreeList(void) {
+    while (head) {
         tail = head->next;
         free(head);
         head = tail;
     }
-
     head = tail = NULL;
 }
-
-
-/*
-출력 결과:
-
-1. 읽어오기 (Load)
-2. 저장하기 (Save)
-3. 등록하기 (Register)
-4. 검색하기 (Find)
-5. 수정하기 (Modify)
-6. 삭제하기 (Remove)
-7. 목록보기 (List)
-Q. 종료
-
-메뉴를 선택하십시오 : 3
-
-이름 : 연개소문
-전화 : 010-9999-8888
-*/

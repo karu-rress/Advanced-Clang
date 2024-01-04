@@ -3,27 +3,20 @@
     Ellipse(hdc, x, y, x+w, y+h);             \
 
 #define EXAM89_BEGIN(timer)                     \
-    if (message == WM_CREATE)                  \
-    {                                           \
+    if (message == WM_CREATE) {                   \
         SetTimer(hWnd, 1000, timer, NULL);    \
         return 0;                               \
     }                                           \
                                                 \
-    if (message == WM_LBUTTONDOWN)             \
-    {                                           \
+    if (message == WM_LBUTTONDOWN) {             \
         if (MY_COLOR < 0xFFFFFF)               \
-        {                                       \
             MY_COLOR <<= 1;                     \
-        }                                       \
         else                                    \
-        {                                       \
             MY_COLOR = 1;                       \
-        }                                       \
         return 0;                               \
     }                                           \
                                                 \
-    if (message == WM_TIMER)                   \
-    {                                           \
+    if (message == WM_TIMER)  {                     \
         InvalidateRect(hWnd, NULL, TRUE);     \
         return 0;                               \
     }                                           \
@@ -67,18 +60,13 @@
     if (message == WM_LBUTTONDOWN)             \
     {                                           \
         if (MY_COLOR < 0xFFFFFF)               \
-        {                                       \
             MY_COLOR <<= 1;                     \
-        }                                       \
         else                                    \
-        {                                       \
             MY_COLOR = 1;                       \
-        }                                       \
         return 0;                               \
     }                                           \
                                                 \
-    if (message == WM_PAINT)                   \
-    {                                           \
+    if (message == WM_PAINT) {                    \
         RECT r;                                 \
         PAINTSTRUCT ps;                         \
         HBRUSH brush, oldBrush;                 \
@@ -195,8 +183,7 @@
                     px = (x-PX)/PW+1;                               \
                     py = (y-PY)/PW+1;                               \
                                                                     \
-                    if (BOARD[px][py])                             \
-                    {                                               \
+                    if (BOARD[px][py]) {                          \
                         MessageBox(hWnd, "돌이 있음",              \
                                           "게임 정보", MB_OK);     \
                         return 0;                                   \
@@ -207,15 +194,9 @@
                     if (CheckGame(px, py, game_stone))             \
                     {                                               \
                         if (game_stone == BLACK_STONE)             \
-                        {                                           \
-                            MessageBox(hWnd, "흑 승리",            \
-                                          "게임 종료", MB_OK);     \
-                        }                                           \
+                            MessageBox(hWnd, "흑 승리", "게임 종료", MB_OK);     \
                         else                                        \
-                        {                                           \
-                            MessageBox(hWnd, "백 승리",            \
-                                          "게임 종료", MB_OK);     \
-                        }                                           \
+                            MessageBox(hWnd, "백 승리", "게임 종료", MB_OK);     \
                                                                     \
                         game_stone = BLACK_STONE;                   \
                         memset(BOARD, 0, sizeof(BOARD));          \
@@ -224,13 +205,9 @@
                     }                                               \
                                                                     \
                     if (game_stone == BLACK_STONE)                 \
-                    {                                               \
                         game_stone = WHITE_STONE;                   \
-                    }                                               \
                     else                                            \
-                    {                                               \
                         game_stone = BLACK_STONE;                   \
-                    }                                               \
                                                                     \
                     return 0;                                       \
                 }                                                   \
@@ -240,14 +217,12 @@
         return 0;                                                   \
     }                                                               \
                                                                     \
-    if (message == WM_TIMER)                                       \
-    {                                                               \
+    if (message == WM_TIMER) {                                     \
         InvalidateRect(hWnd, NULL, FALSE);                        \
         return 0;                                                   \
     }                                                               \
                                                                     \
-    if (message == WM_PAINT)                                       \
-    {                                                               \
+    if (message == WM_PAINT) {                                                               \
         RECT r;                                                     \
         PAINTSTRUCT ps;                                             \
         HBITMAP bitmap, oldBitmap;                                  \
@@ -385,8 +360,7 @@
 }                                                         \
   
 
-#define GAME_OVER()                                                 \
-{                                                                   \
+#define GAME_OVER() {                                                 \
     char szMessage[] = "게임을 다시 할까요?";                       \
     char szCaption[] = "테트리스";                                  \
     int  ret;                                                       \
@@ -563,34 +537,25 @@
 	if (message == WM_KEYDOWN)                                         \
     {                                                                   \
 		if (!game_start)                                               \
-        {                                                               \
             return 0;                                                   \
-        }                                                               \
                                                                         \
 		switch(wParam)                                                \
         {                                                               \
 		case VK_LEFT:                                                   \
 			if (IsMoveable(BX-1, BY, Brick, Rotate) == EMPTY)        \
-            {                                                           \
 				BX--;                                                   \
-			}                                                           \
 			break;                                                      \
                                                                         \
 		case VK_RIGHT:                                                  \
 			if (IsMoveable(BX+1, BY, Brick, Rotate) == EMPTY)        \
-            {                                                           \
 				BX++;                                                   \
-			}                                                           \
 			break;                                                      \
                                                                         \
 		case VK_UP:                                                     \
             {                                                           \
                 int tmp = Rotate == 3 ? 0 : Rotate + 1;                 \
-                                                                        \
 			    if (IsMoveable(BX, BY, Brick, tmp) == EMPTY)          \
-                {                                                       \
 				    Rotate = tmp;                                       \
-			    }                                                       \
             }                                                           \
 			break;                                                      \
                                                                         \
@@ -790,30 +755,20 @@
     if (ret == IDYES)                                              \
     {                                                               \
         int tmp;                                                    \
-                                                                    \
         game_start = 1;                                             \
                                                                     \
         memset(BOARD, 0, sizeof(BOARD));                          \
-                                                                    \
         for (x = 0; x < BW+2; x++)                                     \
         {                                                           \
             for (y = 0; y < BH+2; y++)                                 \
-            {                                                       \
                 if (x == 0 || y == 0 || x == BW+1 || y == BH+1)    \
-                {                                                   \
                     BOARD[x][y] = 1  ;                              \
-                }                                                   \
-            }                                                       \
         }                                                           \
                                                                     \
         if (m_nMode == SERVERON)                                   \
-        {                                                           \
             while (recv(g_cs, (char*)&tmp, 4, 0) > 0);           \
-        }                                                           \
         else                                                        \
-        {                                                           \
             while (recv(g_s, (char*)&tmp, 4, 0) > 0);            \
-        }                                                           \
                                                                     \
         SetTimer(hMainWnd, 1, MY_NEW_TIMER, NULL);                \
         MY_TIMER = MY_NEW_TIMER;                                    \
@@ -866,10 +821,7 @@
 #define BRICK_SHADOW(x, y, brick)                       \
 {                                                         \
     HPEN pen, oldPen;                                     \
-    COLORREF color[] =                                    \
-    {                                                     \
-        RGB(255,221,221),                                 \
-    };                                                    \
+    COLORREF color[] = { RGB(255,221,221), };             \
                                                           \
     pen    = CreatePen(PS_SOLID, 1, color[0]);          \
     oldPen = SelectObject(memdc, pen);                  \
@@ -916,20 +868,14 @@
             game_start = 1;                                             \
                                                                         \
             memset(BOARD, 0, sizeof(BOARD));                          \
-                                                                        \
             for (x = 0; x < BW+2; x++)                                     \
             {                                                           \
                 for (y = 0; y < BH+2; y++)                                 \
-                {                                                       \
                     if (x == 0 || y == 0 || x == BW+1 || y == BH+1)    \
-                    {                                                   \
                         BOARD[x][y] = 1  ;                              \
-                    }                                                   \
-                }                                                       \
             }                                                           \
                                                                         \
             MakeBrick();                                                \
-                                                                        \
             InvalidateRect(hWnd, NULL, FALSE);                        \
         }                                                               \
 	                                                                    \
@@ -963,16 +909,12 @@
             if (llines != lines)                                       \
             {                                                           \
                 if (MY_TIMER > 200)                                    \
-                {                                                       \
                     MY_TIMER -= 70;                                     \
-                }                                                       \
                 else                                                    \
                 {                                                       \
                     MY_TIMER -= 5;                                      \
                     if (MY_TIMER < 70)                                 \
-                    {                                                   \
                         MY_TIMER = 50;                                  \
-                    }                                                   \
                 }                                                       \
                                                                         \
                 level++;                                                \
@@ -988,34 +930,25 @@
     if (message == WM_KEYDOWN)                                         \
     {                                                                   \
         if (!game_start)                                               \
-        {                                                               \
             return 0;                                                   \
-        }                                                               \
                                                                         \
         switch(wParam)                                                \
         {                                                               \
         case VK_LEFT:                                                   \
             if (IsMoveable(BX-1, BY, Brick, Rotate) == EMPTY)        \
-            {                                                           \
                 BX--;                                                   \
-            }                                                           \
             break;                                                      \
                                                                         \
         case VK_RIGHT:                                                  \
             if (IsMoveable(BX+1, BY, Brick, Rotate) == EMPTY)        \
-            {                                                           \
                 BX++;                                                   \
-            }                                                           \
             break;                                                      \
                                                                         \
         case VK_UP:                                                     \
             {                                                           \
                 int tmp = Rotate == 3 ? 0 : Rotate + 1;                 \
-                                                                        \
                 if (IsMoveable(BX, BY, Brick, tmp) == EMPTY)          \
-                {                                                       \
                     Rotate = tmp;                                       \
-                }                                                       \
             }                                                           \
             break;                                                      \
                                                                         \
@@ -1070,6 +1003,5 @@
         EndPaint(hWnd, &ps);                                       \
         return 0;                                                    \
     }                                                                \
-
 
 #endif

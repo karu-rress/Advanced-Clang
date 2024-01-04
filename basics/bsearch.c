@@ -20,6 +20,8 @@ int main(void)
     if (result) {
         printf("%d을 찾았습니다.\n", find_value);
     }
+    
+    return 0;
 }
 
 int intcmp(const void *restrict v1, const void *restrict v2) {
