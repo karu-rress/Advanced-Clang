@@ -1,6 +1,8 @@
+// Binary tree example
+
+#include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <memory.h>
 
 typedef struct tagTree {
     int data;
@@ -14,7 +16,7 @@ void search(Tree *node, int data);
 int main(void) {
     Tree *root, *node;
 
-    node = (Tree*)malloc(sizeof(Tree));
+    node = (Tree *)malloc(sizeof(Tree));
     memset(node, 0, sizeof(Tree));
     node->data = 20;
     root = node;
@@ -38,13 +40,13 @@ Tree *insert(Tree *node, int data) {
     }
     else if (data > node->data) {
         fNode = &node->right;
-        if (*fNode) 
+        if (*fNode)
             insert(node->right, data);
     }
 
     if (fNode && *fNode == NULL) {
         Tree *new;
-        new = (Tree*)malloc(sizeof(Tree));
+        new = (Tree *)malloc(sizeof(Tree));
         memset(new, 0, sizeof(Tree));
 
         new->data = data;
@@ -61,16 +63,16 @@ void search(Tree *node, int data) {
         if (node->left)
             search(node->left, data);
         else
-            printf("데이터 없음\n");
+            printf("Data not found\n");
     }
     else if (data > node->data) {
         printf("%d->(right) ", node->data);
         if (node->right)
             search(node->right, data);
         else
-            printf("데이터 없음\n");
+            printf("Data not found\n");
     }
     else {
-        printf("[%d] 검색됨.\n", node->data);
+        printf("Data found: [%d]\n", node->data);
     }
 }

@@ -1,2 +1,9 @@
+# .gitignore
+
+# VSCode settings
+.vscode/
+*.code-workspace
+
+# Build files
 *.exe
 *.bin

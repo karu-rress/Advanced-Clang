@@ -1,17 +1,7 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"files.associations": {
-			"*.embeddedhtml": "html",
-			"*.rmd": "markdown",
-			"stdio.h": "c",
-			"*.ipp": "c",
-			"winsock2.h": "c",
-			"system_error": "cpp"
-		}
-	}
+    "folders": [
+        {
+            "path": "."
+        }
+    ]
 }

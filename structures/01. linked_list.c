@@ -1,3 +1,5 @@
+// Single linked list example
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,18 +11,18 @@ typedef struct tagNode {
 int main(void) {
     Node *node, *head = NULL, *tail = NULL;
 
-    node = (Node*)malloc(sizeof(Node));
+    node = (Node *)malloc(sizeof(Node));
     node->data = 100;
     node->next = NULL;
     head = tail = node;
 
-    node = (Node*)malloc(sizeof(Node));
+    node = (Node *)malloc(sizeof(Node));
     node->data = 200;
     node->next = NULL;
     tail->next = node;
     tail = node;
 
-    node = (Node*)malloc(sizeof(Node));
+    node = (Node *)malloc(sizeof(Node));
     node->data = 300;
     node->next = NULL;
     tail->next = node;

@@ -1,29 +1,29 @@
+// Stack example
+
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define STACK_MAX 100
 
-typedef struct tagStack
-{
+typedef struct tagStack {
     int array[STACK_MAX];
     int top;
     int bottom;
 } Stack;
 
-Stack stack = { {0,}, STACK_MAX, 0 };
+Stack stack = {{0}, STACK_MAX, 0};
 
 int push(int value);
 int pop(void);
 
-int main(void)
-{
+int main(void) {
     int i;
-    
-    for (i = 0; i < 10; i++) 
+
+    for (i = 0; i < 10; i++)
         push(i);
-    
-    for (i = 0; i < 10; i++) 
+
+    for (i = 0; i < 10; i++)
         printf("%d ", pop());
 
     return 0;

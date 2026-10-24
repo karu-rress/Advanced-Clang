@@ -24,11 +24,11 @@ EXAM91_BEGIN()
     for (x = 0; x < PW * 19; x += PW)
         LINE(PX + x, PY, PX + x, PY + PW*18);
 
-    for (y = 0; y < PW*19; y += PW) 
+    for (y = 0; y < PW*19; y += PW)
         LINE(PX, PY+y, PX+(PW*18), PY+y);
 
     for (x = PX + PW*4; x < PW*19; x += PW*6) {
-        for (y=PX + PW*4; y < PW*19; y += PW*6) 
+        for (y=PX + PW*4; y < PW*19; y += PW*6)
             PUTXY(x, y);
     }
 
@@ -43,8 +43,8 @@ EXAM91_BEGIN()
         }
     }
 
-EXAM91_END()   
- 
+EXAM91_END()
+
 END()
 
 int CheckGame(int x, int y, int stone) {
@@ -52,53 +52,53 @@ int CheckGame(int x, int y, int stone) {
     int py;
     int count;
 
-    // 가로 방향 검사
+    // Check horizontal direction
     px = x, py = y, count = 0;
-    
+
     while (px > 1 && BOARD[px-1][y] == stone)
         px--;
     while (px <= 19 && BOARD[px++][y] == stone)
         count++;
-    
+
     if (count == 5)
-        return 1;       // 승리
-    
-    // 세로 방향 검사
+        return 1;       // Win
+
+    // Check vertical direction
     px = x, py = y, count = 0;
-    
-    while (py > 1 && BOARD[x][py-1] == stone) 
+
+    while (py > 1 && BOARD[x][py-1] == stone)
         py--;
-    while (py <= 19 && BOARD[x][py++] == stone) 
+    while (py <= 19 && BOARD[x][py++] == stone)
         count++;
-    
+
     if (count == 5)
         return 1;
-    
-    // 대각선 방향 검사 (왼쪽위 -> 오른쪽아래)
+
+    // Check diagonal direction (top-left to bottom-right)
     px = x, py = y, count = 0;
-    
+
     while (px > 1 && py > 1 && BOARD[px-1][py-1] == stone)
         px--, py--;
-    
+
 
     while (px <= 19 && py <= 19 && BOARD[px++][py++] == stone)
         count++;
-      
+
     if (count == 5)
         return 1;
 
-    // 대각선 방향 검사 (오른쪽위 -> 왼쪽아래)
+    // Check diagonal direction (top-right to bottom-left)
     px = x, py = y, count = 0;
-    
+
     while (px < 19 && py > 1 && BOARD[px+1][py-1] == stone)
         px++, py--;
-    
+
 
     while (px >= 1 && py <= 19 && BOARD[px--][py++] == stone)
         count++;
-    
+
     if (count == 5)
         return 1;
-    
-    return 0;       // 아직 끝나지 않음
+
+    return 0;       // Not ended yet
 }

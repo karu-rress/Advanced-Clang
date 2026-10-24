@@ -1,3 +1,5 @@
+// file input/output
+
 #include <stdio.h>
 
 #define FILE_NAME "test.bin"

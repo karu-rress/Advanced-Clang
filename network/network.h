@@ -1,7 +1,7 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
-// 연결 주소와 포트
+// Connection address and port
 #define ADDRESS "127.0.0.1"
 #define PORT 10000
 

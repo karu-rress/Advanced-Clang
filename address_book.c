@@ -1,14 +1,15 @@
-#include <stdio.h>
+// Sample address book program
+
+#include <conio.h>
 #include <malloc.h>
-#include <string.h>
 #include <process.h>
 #include <stdarg.h>
-#include <conio.h>
+#include <stdio.h>
+#include <string.h>
 
 #define FILE_NAME "phone.buk"
 
-typedef struct tagPhone
-{
+typedef struct tagPhone {
     char name[20];
     char tel[20];
     struct tagPhone *prev;
@@ -22,118 +23,107 @@ void Register(void);
 void Find(void);
 void Modify(void);
 void Remove(void);
-void RemoveList(Phone* phone);
+void RemoveList(Phone *phone);
 void List(int forward);
 void FreeList(void);
 
 void Message(char *pFormat, ...);
 
 Phone *head, *tail;
-char message[256] = "메뉴를 선택하십시오 : ";
+char message[256] = "Choose an option : ";
 
-int main(void)
-{
-    char* pmenu[] =
-    {
-        "1. 읽어오기 (Load)",
-        "2. 저장하기 (Save)",
-        "3. 등록하기 (Register)",
-        "4. 검색하기 (Find)",
-        "5. 수정하기 (Modify)",
-        "6. 삭제하기 (Remove)",
-        "7. 목록보기 (List)",
-        "Q. 종료\n"        
-    };
+int main(void) {
+    const char *pmenu[] = {
+        "1. Load",
+        "2. Save",
+        "3. Register",
+        "4. Find",
+        "5. Modify",
+        "6. Remove",
+        "7. List",
+        "Q. Exit\n"};
 
-    while (1)
-    {
-        int i;
-        int ch;
-
+    while (1) {
         system("cls");
-        for (i = 0; i<sizeof(pmenu)/sizeof(char*); i++)
-        {
+        for (int i = 0; i < sizeof(pmenu) / sizeof(char *); i++) {
             puts(pmenu[i]);
         }
 
         printf("%s", message);
 
-        ch = getchar();
-        getchar();
-        
-        switch(ch)
-        {
-        case '1':   // 읽어오기
+        int ch = getchar();
+        getchar(); // Consume the newline character
+
+        switch (ch) {
+        case '1':
             Read();
             break;
 
-        case '2':   // 저장하기
+        case '2':
             Write();
             break;
 
-        case '3':   // 등록하기
+        case '3':
             Register();
             break;
 
-        case '4':   // 검색하기
+        case '4':
             Find();
             break;
 
-        case '5':   // 수정하기
+        case '5':
             Modify();
             break;
 
-        case '6':   // 삭제하기
+        case '6':
             Remove();
             break;
 
-        case '7':   // 목록보기
+        case '7':
             List(1);
             break;
 
-        case 'q' :  // 종료
-        case 'Q' :
+        case 'q':
+        case 'Q':
             FreeList();
             exit(0);
         }
     }
 }
 
-void Message(char *pFormat, ...)
-{
+void Message(char *pFormat, ...) {
     va_list arglist;
 
     va_start(arglist, pFormat);
     vsprintf(message, pFormat, arglist);
     va_end(arglist);
 
-    strcat(message, "메뉴를 선택하십시오 : ");
+    strcat(message, "Choose an option : ");
 }
 
-void Read(void)
-{
+void Read(void) {
     int read_block;
     int count = 0;
     FILE *fp;
     Phone phone;
-    
+
     fp = fopen(FILE_NAME, "r");
     if (fp == NULL) {
-        Message("파일을 열 수 없습니다.\n\n");
+        Message("Cannot open file.\n\n");
         return;
     }
-    
+
     while (1) {
         read_block = fread(&phone, sizeof(Phone), 1, fp);
         if (read_block == 1) {
-            Phone* tmp = (Phone*)malloc(sizeof(Phone));
+            Phone *tmp = (Phone *)malloc(sizeof(Phone));
             memset(tmp, 0, sizeof(Phone));
-            
+
             strcpy(tmp->name, phone.name);
-            strcpy(tmp->tel , phone.tel);
+            strcpy(tmp->tel, phone.tel);
 
             if (head == NULL)
-                head = tail = tmp;    
+                head = tail = tmp;
             else {
                 tail->next = tmp;
                 tmp->prev = tail;
@@ -146,17 +136,17 @@ void Read(void)
     }
 
     fclose(fp);
-    Message("%d의 항목을 읽어 왔습니다.\n\n", count);
+    Message("%d items have been read.\n\n", count);
 }
 
 void Write(void) {
     int count = 0;
     FILE *fp;
-    Phone* phone = head;
-    
+    Phone *phone = head;
+
     fp = fopen(FILE_NAME, "w+b");
     if (fp == NULL) {
-        Message("파일을 열 수 없습니다. \n\n");
+        Message("Cannot open file.\n\n");
         return;
     }
 
@@ -165,56 +155,56 @@ void Write(void) {
         phone = phone->next;
         count++;
     }
-    
+
     fclose(fp);
-    Message("%d개의 항목을 저장하였습니다. \n\n", count);
+    Message("%d items have been saved.\n\n", count);
 }
 
 void Register(void) {
     Phone phone;
-    
+
     memset(&phone, 0, sizeof(Phone));
 
-    printf("\n이름 : ");
+    printf("\nName : ");
     gets(phone.name);
 
-    printf("전화 : ");
+    printf("Phone : ");
     gets(phone.tel);
 
     if (head == NULL) {
-        head = tail = (Phone*)malloc(sizeof(Phone));
+        head = tail = (Phone *)malloc(sizeof(Phone));
         memset(head, 0, sizeof(Phone));
     }
     else {
         Phone *phone = malloc(sizeof(Phone));
         memset(phone, 0, sizeof(Phone));
-    
+
         tail->next = phone;
         phone->prev = tail;
         tail = phone;
     }
 
     strcpy(tail->name, phone.name);
-    strcpy(tail->tel , phone.tel);
+    strcpy(tail->tel, phone.tel);
 
-    Message("%s이(가) 추가되었습니다.\n\n", phone.name);
+    Message("%s has been added.\n\n", phone.name);
 }
 
 void Find(void) {
-    Phone* phone = head;
+    Phone *phone = head;
     char name[30];
 
-    printf("\n검색할 이름은 : ");
+    printf("\nSearch for a name : ");
     gets(name);
 
     while (phone) {
         if (!strcmp(name, phone->name)) {
-            Message("이름 : %s \n"
-                     "번호 : %s \n\n", 
-                     phone->name, phone->tel);
+            Message("Name : %s \n"
+                    "Phone : %s \n\n",
+                phone->name, phone->tel);
             return;
         }
-     
+
         phone = phone->next;
     }
 }
@@ -223,21 +213,21 @@ void Modify(void) {
     char name[30];
     Phone *phone = head;
 
-    printf("수정할 이름은 : ");
+    printf("Name to modify : ");
     gets(name);
 
     while (phone) {
         if (!strcmp(name, phone->name)) {
             char tel[20];
 
-            printf("수정할 핸드폰 번호는 : ");
-            
+            printf("New phone number : ");
+
             gets(tel);
             strcpy(phone->tel, tel);
-            
-            Message("수정된 이름 : %s \n"
-                     "수정된 번호 : %s \n\n", 
-                     phone->name, phone->tel);
+
+            Message("Modified name : %s \n"
+                    "Modified phone number : %s \n\n",
+                phone->name, phone->tel);
 
             return;
         }
@@ -249,14 +239,14 @@ void Remove(void) {
     char name[30];
     Phone *phone = head;
 
-    printf("삭제할 이름은 : ");
+    printf("Name to delete : ");
     gets(name);
 
     while (phone) {
         if (!strcmp(name, phone->name)) {
             RemoveList(phone);
-            
-            Message("%s가 삭제되었습니다. \n\n", name);
+
+            Message("%s has been deleted. \n\n", name);
 
             return;
         }
@@ -264,23 +254,22 @@ void Remove(void) {
     }
 }
 
-void RemoveList(Phone* phone) {
-    if (phone == head)     {
+void RemoveList(Phone *phone) {
+    if (phone == head) {
         head = head->next;
 
-        if (head)      
-            head->prev = NULL;    
+        if (head)
+            head->prev = NULL;
         else
             tail = NULL;
-        
     }
     else if (phone == tail) {
         tail = tail->prev;
         tail->next = NULL;
     }
     else {
-        Phone* prev;
-        Phone* next;
+        Phone *prev;
+        Phone *next;
 
         prev = phone->prev;
         next = phone->next;
@@ -292,24 +281,24 @@ void RemoveList(Phone* phone) {
 }
 
 void List(int forward) {
-    Phone* phone;
+    Phone *phone;
     int count = 0;
 
     phone = forward ? head : tail;
 
     while (phone) {
-        printf("이름 : %s \n", phone->name);
-        printf("번호 : %s \n", phone->tel);
+        printf("Name : %s \n", phone->name);
+        printf("Phone : %s \n", phone->tel);
 
         if (++count % 10 == 0) {
-            printf("\n계속 보려면 아무키나 누르세요...\n");
+            printf("\nPress any key to continue...\n");
             getch();
         }
         phone = forward ? phone->next : phone->prev;
     }
 
-    printf("\n모든 항목이 출력되었습니다. \n");
-    printf("\n아무키나 누르세요... \n");
+    printf("\nAll items have been displayed. \n");
+    printf("\nPress any key to continue... \n");
 
     getch();
     Message("");
